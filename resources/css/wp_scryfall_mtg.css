@@ -1,0 +1,194 @@
+.mtg_deck_title {
+  text-decoration: underline;
+}
+
+table.mtg_deck {
+  max-width: 510px;
+  margin: 10px;
+  text-align: left;
+}
+
+table.mtg_deck td {
+  vertical-align: top;
+  padding: 5px 2px;
+  vertical-align: top;
+}
+
+table.mtg_deck td.card_box {
+  width: 223px;
+  height: 310px;
+}
+
+.blueBkgr {
+  background-color: #E6F4FF;
+}
+
+.greenBkgr {
+  background-color: #D9FCD1;
+}
+
+.yellowBkgr {
+  background-color: #ffffbb;
+}
+
+.orangeBkgr {
+  background-color: #ffeecc;
+}
+
+.scryfall_i_tooltip {
+  position: absolute;
+  z-index: 200;
+  border: 1px solid #ccc;
+  background-color: #F7F7F7;
+  padding: 10px;
+}
+
+.scryfall_t_tooltip {
+  position: absolute;
+  z-index: 200;
+  border: 1px solid #517CA1;
+  background-color: #F2F7FC;
+  padding: 3px 4px;
+  font-size: 12px;
+}
+
+.scryfall_t_tooltip.text {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background-color: white;
+  font-style: italic;
+  color: grey;
+  max-width: 300px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.scryfall_tooltip .inline_block {
+  display: -moz-inline-stack;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+
+.scryfall_tooltip {
+  position: absolute;
+  z-index: 65000;
+  color: white;
+  font-family: Verdana,sans-serif;
+}
+
+.scryfall_tooltip table {
+  border: 0 none !important;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0;
+}
+
+.scryfall_tooltip tr {
+  background: transparent none repeat scroll 0 0 !important;
+  border: 0 none !important;
+}
+
+.scryfall_tooltip td {
+  padding: 8px 4px 1px 9px;
+  text-align: left;
+}
+
+.scryfall_tooltip th {
+  height: auto;
+  padding: 3px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.scryfall_tooltip td, .scryfall_tooltip th {
+  background: transparent url(../../images/deckbox_tooltip.png) repeat scroll 0 0;
+  color: white;
+  font-family: Verdana,sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.scryfall_tooltip td td, .scryfall_tooltip td th {
+  background: transparent none repeat scroll 0 0;
+  padding: 3px;
+  vertical-align: middle;
+}
+
+.scryfall_tooltip td th {
+  padding-left: 30px;
+}
+
+.scryfall_tooltip b {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 22px;
+}
+
+.scryfall_tooltip .rules {
+  color: #E5CC80;
+}
+
+.scryfall_tooltip .mtg_keyword_explanation {
+  font-style: italic;
+  font-size: 90%;
+  color: #cacac0;
+}
+
+.scryfall_tooltip b.title {
+  color: #0070DD;
+}
+
+.scryfall_tooltip .mtg_L, .scryfall_tooltip .mtg_C {
+  color: #fff;
+}
+
+.scryfall_tooltip .mtg_U {
+  color: #CDE;
+}
+
+.scryfall_tooltip .mtg_R {
+  color: #FFD100;
+}
+
+.scryfall_tooltip .mtg_M {
+  color: #FF8000;
+}
+
+.scryfall_tooltip .mtg_S {
+  color: #A335EE;
+}
+
+.scryfall_tooltip .wow_C {
+  color: #fff;
+}
+
+.scryfall_tooltip .wow_R {
+  color: #0070DD;
+}
+
+.scryfall_tooltip .wow_U {
+  color: #1Eff00;
+}
+
+.scryfall_tooltip .wow_E {
+  color: #A335EE;
+}
+
+.scryfall_tooltip .wow_L {
+  color: #FF8000;
+}
+
+.scryfall_tooltip .wow_icon {
+  width: 27px;
+  height: 27px;
+}
+
+.scryfall_tooltip .wow_class_icon {
+  width: 20px;
+  height: 20px;
+}
+
+.scryfall_tooltip th {
+  height: 8px !important;
+}
