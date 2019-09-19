@@ -1,13 +1,4 @@
 <?php
-/*
-Plugin Name: bbPress Do Short Codes
-Plugin URI: http://pippinsplugins.com/bbpress-do-shortcodes
-Description: Enables short codes in bbPress Topic and Reply content
-Version: 1.0.3
-Author: Pippin Williamson
-Author URI: http://pippinsplugins.com
-Contributors: mordauk 
-*/
 
 if (! function_exists('pw_bbp_shortcodes')) {
 	function pw_bbp_shortcodes( $content, $reply_id ) {
@@ -26,3 +17,13 @@ if (! function_exists('pw_bbp_shortcodes')) {
 		return apply_filters( 'pw_bbp_parse_shortcodes_cap', 'publish_forums' );
 	}
 }
+
+/*
+Plugin Name: bbPress Do Short Codes
+Plugin URI: http://pippinsplugins.com/bbpress-do-shortcodes
+Description: Enables short codes in bbPress Topic and Reply content
+Version: 1.0.3
+Author: Pippin Williamson
+Author URI: http://pippinsplugins.com
+Contributors: mordauk 
+*/
