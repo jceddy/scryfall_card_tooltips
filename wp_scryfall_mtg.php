@@ -256,7 +256,7 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
         function draw_menu() {
             echo '
               <div class="wrap">
-                <h2>Deckbox Scryfall Card Tooltips Settings</h2><br/>
+                <h2>Scryfall Card Tooltips Settings</h2><br/>
                 <div id="poststuff" class="ui-sortable"><div class="postbox">
                     <h3 style="font-size:14px;">General Settings</h3>
                     <div class="inside">
