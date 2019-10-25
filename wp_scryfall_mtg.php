@@ -5,7 +5,7 @@ Plugin URI: https://github.com/jceddy/wordpress_scryfall_tooltips
 Description: Easily transform Magic the Gathering card names into links that show the card
 image from Scryfall in a tooltip when hovering over them. You can also quickly create deck listings (with MTGA support).
 Author: Joseph Eddy
-Version: 0.0.1
+Version: 0.0.2
 Author URI: https://www.dailyarena.net
 */
 include('lib/bbp-do-shortcodes.php');
@@ -158,11 +158,11 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
             $response .= $this->parse_mtg_deck_lines($lines, $style, $show_mtga_link, $mtga_text) . '</td>';
             $response .= '</tr></table>';
 
-			if($show_mtga_link) {
-				$response .= '<div style="display:inline-block; vertical-align:top;">
-					  <button class="js-copy-btn" onclick="copyTextToClipboard(\'' . str_replace("&#8217;", "\'", htmlspecialchars(trim(json_encode($mtga_text, JSON_UNESCAPED_SLASHES), '"'), ENT_QUOTES, 'utf-8')) . '\');">Export to MTGA</button>
-					</div><br /><br />';
-			}
+		if($show_mtga_link) {
+			$response .= '<div style="display:inline-block; vertical-align:top;">
+				  <button class="js-copy-btn" onclick="copyTextToClipboard(\'' . str_replace("&#8217;", "\'", htmlspecialchars(trim(json_encode($mtga_text, JSON_UNESCAPED_SLASHES), '"'), ENT_QUOTES, 'utf-8')) . '\');">Export to MTGA</button>
+				</div><br /><br />';
+		}
 
             return $response;
         }
@@ -176,30 +176,31 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
             $current_body = '';
             $first_card = null;
             $second_column = false;
-
+	    $deck_started = false;
+		
             for ($i = 0; $i < count($lines); $i++) {
                 $line = $lines[$i];
-
+		
                 if (preg_match('/^([0-9]+)(.*)/', $line, $bits)) {
                     $card_name = trim($bits[2]);
                     $first_card = $first_card == null ? $card_name : $first_card;
                     $card_name = str_replace("’", "'", $card_name);
 
-					if(preg_match("/(.*) \((.*)\) (.*)/", $card_name, $results) && count($results) == 4) {
-						if($show_mtga_link) {
-							$mtga_text .= str_replace("’", "'", $line) . "\n";
-						}
-						$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $results[1])));
-						$set_code = $this->replace_set_code(strtolower($results[2]));
-						$line = $bits[1] . '&nbsp;<a class="scryfall_link" imagelink="https://api.scryfall.com/cards/' . $set_code . '/' . strtolower($results[3]) . '?format=image&version=normal&utm_source=mw_DailyArena" target="_blank" href="https://scryfall.com/card/' . $set_code . '/' . strtolower($results[3]) . '/' . strtolower($clean_name) . '">' . $results[1] . '</a><br />';
-					}
-					else {
-						$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $card_name)));
-						$line = $bits[1] . '&nbsp;<a class="scryfall_link" imagelink="https://api.scryfall.com/cards/named?fuzzy=!' . $clean_name . '!&format=image&version=normal&utm_source=mw_DailyArena" target="_blank" href="https://scryfall.com/search?q=%21%22' . $clean_name . '%22&amp;utm_source=mw_DailyArena">' . $card_name . '</a><br />';
-						$show_mtga_link = false;
-					}
+			if(preg_match("/(.*) \((.*)\) (.*)/", $card_name, $results) && count($results) == 4) {
+				if($show_mtga_link) {
+					$mtga_text .= str_replace("’", "'", $line) . "\n";
+				}
+				$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $results[1])));
+				$set_code = $this->replace_set_code(strtolower($results[2]));
+				$line = $bits[1] . '&nbsp;<a class="scryfall_link" imagelink="https://api.scryfall.com/cards/' . $set_code . '/' . strtolower($results[3]) . '?format=image&version=normal&utm_source=mw_DailyArena" target="_blank" href="https://scryfall.com/card/' . $set_code . '/' . strtolower($results[3]) . '/' . strtolower($clean_name) . '">' . $results[1] . '</a><br />';
+			}
+			else {
+				$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $card_name)));
+				$line = $bits[1] . '&nbsp;<a class="scryfall_link" imagelink="https://api.scryfall.com/cards/named?fuzzy=!' . $clean_name . '!&format=image&version=normal&utm_source=mw_DailyArena" target="_blank" href="https://scryfall.com/search?q=%21%22' . $clean_name . '%22&amp;utm_source=mw_DailyArena">' . $card_name . '</a><br />';
+				$show_mtga_link = false;
+			}
 
-					$current_body .= $line;
+			$current_body .= $line;
                     $current_count += intval($bits[1]);
                 } else {
                     // Beginning of a new category. If this was not the first one, we put the previous one
@@ -218,8 +219,18 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
                             $html .= '<br />';
                         }
                         if (preg_match("/Sideboard/", $line) && $show_mtga_link) {
-							$mtga_text .= "\n";
-						}
+			    $mtga_text .= "\nSideboard\n";
+			}
+                        else if (preg_match("/Commander/", $line) && $show_mtga_link) {
+			    $mtga_text .= "Commander\n";
+			}
+			else if(!$deck_started) {
+			    if($mtga_text != "") {
+				$mtga_text .= "\n";    
+			    }
+			    $mtga_text .= "Deck\n";
+			    $deck_started = true;
+			}
                     }
                     $current_title = $line; $current_count = 0; $current_body = '';
                 }
@@ -228,15 +239,15 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
                 ')</span><br />' . $current_body;
 
             if ($style == 'embedded') {
-				if(preg_match("/(.*) \((.*)\) (.*)/", $first_card, $results) && count($results) == 4) {
-					$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $results[1])));
-					$set_code = $this->replace_set_code(strtolower($results[2]));
-					$html .= '<td class="card_box"><img class="on_page" src="https://api.scryfall.com/cards/' . $set_code . '/' . strtolower($results[3]) . '?format=image&version=normal&utm_source=mw_DailyArena" height="311" width="223" /></td>';
-				}
-				else {
-					$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $first_card)));
-					$html .= '<td class="card_box"><img class="on_page" src="https://api.scryfall.com/cards/named?fuzzy=!' . $clean_name . '!&format=image&version=normal&utm_source=mw_DailyArena" height="311" width="223" /></td>';
-				}
+		if(preg_match("/(.*) \((.*)\) (.*)/", $first_card, $results) && count($results) == 4) {
+			$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $results[1])));
+			$set_code = $this->replace_set_code(strtolower($results[2]));
+			$html .= '<td class="card_box"><img class="on_page" src="https://api.scryfall.com/cards/' . $set_code . '/' . strtolower($results[3]) . '?format=image&version=normal&utm_source=mw_DailyArena" height="311" width="223" /></td>';
+		}
+		else {
+			$clean_name = str_replace("8217", "", str_replace(" ", "+", preg_replace("/(?![.=$'%-])\p{P}/u", "", $first_card)));
+			$html .= '<td class="card_box"><img class="on_page" src="https://api.scryfall.com/cards/named?fuzzy=!' . $clean_name . '!&format=image&version=normal&utm_source=mw_DailyArena" height="311" width="223" /></td>';
+		}
             }
 
             return $html;
