@@ -218,10 +218,13 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
                         } else {
                             $html .= '<br />';
                         }
-                        if (preg_match("/Sideboard/", $line) && $show_mtga_link) {
+		    }
+		    $current_title = $line; $current_count = 0; $current_body = '';
+			
+			if (preg_match("/Sideboard/", $line) && $show_mtga_link) {
 			    $mtga_text .= "\nSideboard\n";
 			}
-                        else if (preg_match("/Commander/", $line) && $show_mtga_link) {
+			else if (preg_match("/Commander/", $line) && $show_mtga_link) {
 			    $mtga_text .= "Commander\n";
 			}
 			else if(!$deck_started) {
@@ -231,8 +234,6 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
 			    $mtga_text .= "Deck\n";
 			    $deck_started = true;
 			}
-                    }
-                    $current_title = $line; $current_count = 0; $current_body = '';
                 }
             }
             $html .= '<span style="font-weight:bold">' . $current_title . ' (' . $current_count .
