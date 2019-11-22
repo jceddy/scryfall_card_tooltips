@@ -34,8 +34,8 @@ if (! class_exists('Scryfall_Tooltip_plugin')) {
             $this->_optionName = 'scryfall_tooltip_options';
             $this->_value = array();
             $this->_styles = array('tooltip', 'embedded');
-            $this->_resources_dir = plugins_url().'/scryfall-card-tooltips/resources/';
-			$this->_images_dir = plugins_url().'/scryfall-card-tooltips/images/';
+            $this->_resources_dir = plugins_url('resources/', __FILE__);
+			$this->_images_dir = plugins_url('images/', __FILE__);
 
             $this->loadSettings();
             $this->init();
