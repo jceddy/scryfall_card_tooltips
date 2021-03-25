@@ -86,6 +86,7 @@ Scryfall.ui.Tooltip.prototype = {
 
         this.el.style.top = pos[1] + "px";
         this.el.style.left = pos[0] + "px";
+	this.el.style.width = "238px";
     },
 
     register: function(url, content) {
